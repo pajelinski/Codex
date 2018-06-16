@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FD04B440-578D-417D-A221-33E94D5FAEEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{55C31476-FB66-40A9-8A46-4F4F3359C030}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Codex", "src\Codex\Codex.csproj", "{FD784AEC-626E-4600-AA1B-C8121E4B416B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Codex.Tests", "test\Codex.Tests\Codex.Tests.csproj", "{3B344615-014A-4032-9623-D383BF0E10FB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FD784AEC-626E-4600-AA1B-C8121E4B416B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD784AEC-626E-4600-AA1B-C8121E4B416B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD784AEC-626E-4600-AA1B-C8121E4B416B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD784AEC-626E-4600-AA1B-C8121E4B416B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B344615-014A-4032-9623-D383BF0E10FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B344615-014A-4032-9623-D383BF0E10FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B344615-014A-4032-9623-D383BF0E10FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B344615-014A-4032-9623-D383BF0E10FB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{FD784AEC-626E-4600-AA1B-C8121E4B416B} = {FD04B440-578D-417D-A221-33E94D5FAEEB}
+		{3B344615-014A-4032-9623-D383BF0E10FB} = {55C31476-FB66-40A9-8A46-4F4F3359C030}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F3D30AD7-7B30-45AB-908B-F5F836983DBB}
+	EndGlobalSection
+EndGlobal
