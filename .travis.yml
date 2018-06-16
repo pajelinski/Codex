@@ -9,4 +9,4 @@ install:
 
 script:
  - dotnet build 
- - dotnet test tests/Codex.Tests/Codex.Tests.csproj
+ - dotnet test test/Codex.Tests/Codex.Tests.csproj
