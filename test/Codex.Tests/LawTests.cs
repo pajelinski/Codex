@@ -1,4 +1,6 @@
-﻿namespace Codex.Tests
+﻿using System.Collections.Generic;
+
+namespace Codex.Tests
 {
     using System;
     using Result;
@@ -43,7 +45,7 @@
         public class NotNullLawTests
         {
             [Fact]
-            public void NotNullRule_GivenNull_ReturnsError()
+            public void GivenNull_ReturnsError()
             {
                 var result = Law<object>.CreateNotNull("subjectName").Evaluate(null);
                 Assert.False(result.IsSuccess());
@@ -51,9 +53,29 @@
             }
 
             [Fact]
-            public void NotNullRule_GivenObject_ReturnsSuccess()
+            public void GivenObject_ReturnsSuccess()
             {
                 var result = Law<object>.CreateNotNull(string.Empty).Evaluate(new object());
+                Assert.True(result.IsSuccess());
+            }
+        }
+
+        public class NotNullElementsLaw
+        {
+            [Fact]
+            public void GivenAllNullElements_ReturnsError()
+            {
+                var collectionWithNullValue = new object[] { null, null };
+                var result = Law<object>.CreateNotNullElements("subjectName").Evaluate(collectionWithNullValue);
+                Assert.False(result.IsSuccess());
+                Assert.Equal("'subjectName' should contain not null elements.", result.GetError());
+            }
+
+            [Fact]
+            public void GivenAllNotNullElements_ReturnsError()
+            {
+                var testCollection = new[] { "subject1", "subject2" };
+                var result = Law<object>.CreateNotNullElements(string.Empty).Evaluate(testCollection);
                 Assert.True(result.IsSuccess());
             }
         }

@@ -1,7 +1,9 @@
 ﻿namespace Codex
 {
-    using System;
     using Result;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public interface ILaw<in T>
     {
@@ -15,6 +17,9 @@
 
         public static Law<T> CreateNotNull(string name) => 
             new Law<T>(x => x != null, $"'{name}' should not be null.");
+
+        public static Law<IEnumerable<T>> CreateNotNullElements(string name) => 
+            new Law<IEnumerable<T>>(x => x != null && x.All(it => it != null), $"'{name}' should contain not null elements.");
 
         public Law(Predicate<T> predicate, string errorMessage)
         {
