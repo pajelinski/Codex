@@ -39,5 +39,23 @@
         [Fact]
         public void WhenErrorMessageIsNull_ThrowsArgumentNullException() =>
             Assert.Throws<ArgumentNullException>("errorMessage", () => new Law<Nothing>(_falsePredicate, null));
+
+        public class NotNullLawTests
+        {
+            [Fact]
+            public void NotNullRule_GivenNull_ReturnsError()
+            {
+                var result = Law<object>.CreateNotNull("subjectName").Evaluate(null);
+                Assert.False(result.IsSuccess());
+                Assert.Equal("'subjectName' should not be null.", result.GetError());
+            }
+
+            [Fact]
+            public void NotNullRule_GivenObject_ReturnsSuccess()
+            {
+                var result = Law<object>.CreateNotNull(string.Empty).Evaluate(new object());
+                Assert.True(result.IsSuccess());
+            }
+        }
     }
 }
