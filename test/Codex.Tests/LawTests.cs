@@ -1,20 +1,16 @@
-﻿using System.Collections.Generic;
-
-namespace Codex.Tests
+﻿namespace Codex.Tests
 {
     using System;
-    using Result;
     using Xunit;
 
     public class LawTests
     {
-        private readonly Nothing _nothing = new Nothing();
-        private readonly Predicate<Nothing> _falsePredicate = x => false;
-        private readonly Law<string> _isNotNullLaw;
+        private readonly Func<bool> _falsePredicate = () => false;
+        private readonly Func<string,ILaw> _createIsNotNullLaw;
 
         public LawTests()
         {
-            _isNotNullLaw = new Law<string>(x => !string.IsNullOrEmpty(x), string.Empty);
+            _createIsNotNullLaw = x => new Law(() => !string.IsNullOrEmpty(x), string.Empty);
 
         }
 
@@ -22,32 +18,32 @@ namespace Codex.Tests
         public void Evaluate_GivenFailingPredicate_ReturnsErrorMessage()
         {
             const string expectedErrorMessage = "errorMessage";
-            var result = new Law<Nothing>(_falsePredicate, expectedErrorMessage).Evaluate(_nothing);
+            var result = new Law(_falsePredicate, expectedErrorMessage).Evaluate();
             Assert.Equal(expectedErrorMessage, result.GetError());
         }
 
         [Fact]
         public void Evaluate_GivenIsNotNullPredicate_WhenEvaluatedValueIsNull_ReturnsError() => 
-            Assert.False(_isNotNullLaw.Evaluate(string.Empty).IsSuccess());
+            Assert.False(_createIsNotNullLaw(string.Empty).Evaluate().IsSuccess());
 
         [Fact]
         public void Evaluate_GivenIsNotNullPredicate_WhenEvaluatedValueIsNotNull_ReturnsSuccess() => 
-            Assert.True(_isNotNullLaw.Evaluate("string").IsSuccess());
+            Assert.True(_createIsNotNullLaw("string").Evaluate().IsSuccess());
 
         [Fact]
         public void WhenPredicateIsNull_ThrowsArgumentNullException() => 
-            Assert.Throws<ArgumentNullException>("predicate", () => new Law<Nothing>(null, string.Empty));
+            Assert.Throws<ArgumentNullException>("predicate", () => new Law(null, string.Empty));
 
         [Fact]
         public void WhenErrorMessageIsNull_ThrowsArgumentNullException() =>
-            Assert.Throws<ArgumentNullException>("errorMessage", () => new Law<Nothing>(_falsePredicate, null));
+            Assert.Throws<ArgumentNullException>("errorMessage", () => new Law(_falsePredicate, null));
 
         public class NotNullLawTests
         {
             [Fact]
             public void GivenNull_ReturnsError()
             {
-                var result = Law<object>.CreateNotNull("subjectName").Evaluate(null);
+                var result = Law.CreateNotNull<object>("subjectName", null).Evaluate();
                 Assert.False(result.IsSuccess());
                 Assert.Equal("'subjectName' should not be null.", result.GetError());
             }
@@ -55,7 +51,7 @@ namespace Codex.Tests
             [Fact]
             public void GivenObject_ReturnsSuccess()
             {
-                var result = Law<object>.CreateNotNull(string.Empty).Evaluate(new object());
+                var result = Law.CreateNotNull(string.Empty, new object()).Evaluate();
                 Assert.True(result.IsSuccess());
             }
         }
@@ -66,7 +62,7 @@ namespace Codex.Tests
             public void GivenAllNullElements_ReturnsError()
             {
                 var collectionWithNullValue = new object[] { null, null };
-                var result = Law<object>.CreateNotNullElements("subjectName").Evaluate(collectionWithNullValue);
+                var result = Law.CreateNotNullElements("subjectName", collectionWithNullValue).Evaluate();
                 Assert.False(result.IsSuccess());
                 Assert.Equal("'subjectName' should contain not null elements.", result.GetError());
             }
@@ -75,7 +71,7 @@ namespace Codex.Tests
             public void GivenAllNotNullElements_ReturnsError()
             {
                 var testCollection = new[] { "subject1", "subject2" };
-                var result = Law<object>.CreateNotNullElements(string.Empty).Evaluate(testCollection);
+                var result = Law.CreateNotNullElements(string.Empty, testCollection).Evaluate();
                 Assert.True(result.IsSuccess());
             }
         }
